@@ -85,6 +85,10 @@ public class PhoneTokenizer extends Tokenizer {
 
 		// Drop anything after @. Most likely there's nothing of interest
 		String[] parts = StringUtils.split(uri, "@");
+		if(parts.length == 0) {
+			return;
+		}
+		
 		String number = parts[0];
 
 		// Add a token for the raw unmanipulated address. Note this could be a username (sip) instead of telephone number so take it as is

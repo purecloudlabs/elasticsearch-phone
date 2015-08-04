@@ -85,10 +85,10 @@ public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
 	}
 
 	@Test
-	public void coffeeShopInIreland() throws ExecutionException, InterruptedException, IOException {
+	public void testCoffeeShopInIreland() throws ExecutionException, InterruptedException, IOException {
 		assertIncludes("tel:+442890319416", Arrays.asList("44", "289", "2890319416", "442890319416"));
 	}
-
+	
 	@Test
 	public void testTelWithCountryCode() throws ExecutionException, InterruptedException, IOException {
 		assertIncludes("tel:+17177158163", Arrays.asList("1", "717", "7177", "17177158163"));
