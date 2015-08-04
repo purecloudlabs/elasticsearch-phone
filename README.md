@@ -4,7 +4,7 @@ Indexing phone numbers & sip addresses in lucene is complicated. Most people use
 
 It's a hard problem to regex your way out of. An international phone number often includes a country code, but that can be 1, 2, or 3+ digits. A lot of people have requested elasticsearch integrate google's libphone library into a custom lucene analyzer. It hasn't happened yet, so here's a plugin that attempts to do just that.  
 
-Note: This is a young project we're just starting to testing 8/3/2015. We'll improve as time goes on, but use at your own risk.  
+Note: This is a young project we're just starting to do testing on 8/3/2015. We'll improve as time goes on, but use at your own risk.  
 
 # Building and installing the plugin
 mvn package
