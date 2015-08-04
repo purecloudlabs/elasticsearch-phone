@@ -99,7 +99,7 @@ public class PhoneTokenizer extends Tokenizer {
 		PhoneNumber numberProto = null;
 		String countryCode = null;
 		try{
-			// ZZ is the generic "I don't know the country code" region. Wish we got country code from our edge, but we don't currently.
+			// ZZ is the generic "I don't know the country code" region. Google's libphone library will try to infer it.
 			numberProto = phoneUtil.parse(number, "ZZ");
 			if(numberProto != null) {
 				// Libphone likes it! 
