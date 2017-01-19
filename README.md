@@ -8,7 +8,7 @@ Note: This is a young project we're just starting to do testing on 8/3/2015. We'
 
 # Building and installing the plugin
 mvn package  
-./bin/plugin --url file:///....elasticsearch-phone/target/releases/elasticsearch-phone-1.0.0.zip --install elasticsearch-phone;
+./bin/elasticsearch-plugin install file:///....elasticsearch-phone/target/releases/elasticsearch-phone-1.2.0.zip;
 
 ## Example inputs
 
@@ -77,4 +77,3 @@ TOKENS
 81771483  
 817714835  
 8177148350  
-  
