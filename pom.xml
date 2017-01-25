@@ -6,7 +6,7 @@
 	<groupId>com.inin.analytics</groupId>
 	<artifactId>elasticsearch-phone</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>elasticsearch-phone</name>
 	<description>Elasticsearch Plugin for Phone and SIP Analysis</description>
 	<url>https://github.com/MyPureCloud/elasticsearch-phone</url>
