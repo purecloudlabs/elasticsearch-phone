@@ -116,7 +116,9 @@ public class PhoneTokenizer extends Tokenizer {
 			} 
 		} catch(NumberParseException e) {
 			// Libphone didn't like it, no biggie. We'll just ngram the number as it is. 
-		}	
+		} catch(StringIndexOutOfBoundsException e) {
+		    // Libphone didn't like it, no biggie. We'll just ngram the number as it is.
+		}
 
 		// ngram the phone number EG 19198243333 produces 9, 91, 919, etc 
 		if(NumberUtils.isNumber(number)) {
