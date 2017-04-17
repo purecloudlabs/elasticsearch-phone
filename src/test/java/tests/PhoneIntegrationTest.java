@@ -98,6 +98,11 @@ public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
 	public void testTelWithCountryCode2() throws ExecutionException, InterruptedException, IOException {
 		assertIncludes("tel:+12177148350", Arrays.asList("1", "217", "2177", "2177148350","12177148350"));
 	}
+	
+	@Test
+    public void testNewTollFreeNumber() throws ExecutionException, InterruptedException, IOException {
+        assertIncludes("tel:+18337148350", Arrays.asList("1", "833", "8337", "8337148350","18337148350"));
+    }
 
 	@Test
 	public void testMissingCountryCode() throws ExecutionException, InterruptedException, IOException {
