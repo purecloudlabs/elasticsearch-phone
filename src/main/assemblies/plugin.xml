@@ -5,9 +5,16 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <files>
+        <file>
+            <source>${basedir}/src/main/resources/plugin-descriptor.properties</source>
+            <outputDirectory>elasticsearch</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+    </files>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/elasticsearch/</outputDirectory>
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <excludes>
@@ -15,13 +22,14 @@
             </excludes>
         </dependencySet>
         <dependencySet>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/elasticsearch/</outputDirectory>
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
             <includes>
                 <include>com.googlecode.libphonenumber:libphonenumber</include>
-		<include>org.apache.commons:commons-lang3</include>
+                <include>org.apache.commons:commons-lang3</include>
             </includes>
         </dependencySet>
     </dependencySets>
 </assembly>
+

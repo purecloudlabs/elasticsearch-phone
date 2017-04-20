@@ -1,239 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.inin.analytics</groupId>
-	<artifactId>elasticsearch-phone</artifactId>
-	<packaging>jar</packaging>
-	<version>1.0.2</version>
-	<name>elasticsearch-phone</name>
-	<description>Elasticsearch Plugin for Phone and SIP Analysis</description>
-	<url>https://github.com/MyPureCloud/elasticsearch-phone</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java-version>1.7</java-version>
-		<junit.version>4.11</junit.version>
-		<java.io.tmpdir>/tmp</java.io.tmpdir>
-	</properties>
+    <groupId>com.inin.analytics</groupId>
+    <artifactId>elasticsearch-phone</artifactId>
+    <packaging>jar</packaging>
+    <version>5.1.1</version>
+    <name>elasticsearch-phone</name>
+    <description>Elasticsearch Plugin for Phone and SIP Analysis</description>
+    <url>https://github.com/MyPureCloud/elasticsearch-phone</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceVersion>1.8</project.build.sourceVersion>
+        <elasticsearch.version>5.1.1</elasticsearch.version>
+        <lucence.version>6.3.0</lucence.version>
+        <junit.version>4.12</junit.version>
+                <elasticsearch.assembly.descriptor>${basedir}/src/main/assemblies/plugin.xml</elasticsearch.assembly.descriptor>
+    </properties>
 
-	<licenses>
-		<license>
-			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
-	<scm>
-		<connection>https://github.com/MyPureCloud/elasticsearch-phone.git</connection>
-		<developerConnection>https://github.com/MyPureCloud/elasticsearch-phone.git</developerConnection>
-		<url>https://github.com/MyPureCloud/elasticsearch-phone.git</url>
-	</scm>
+    <scm>
+        <connection>https://github.com/MyPureCloud/elasticsearch-phone.git</connection>
+        <developerConnection>https://github.com/MyPureCloud/elasticsearch-phone.git</developerConnection>
+        <url>https://github.com/MyPureCloud/elasticsearch-phone.git</url>
+    </scm>
 
-	<!--External Repositories -->
-	<repositories>
-		<repository>
-			<id>oss-sonatype</id>
-			<name>oss-sonatype</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-		</repository>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+    <!--External Repositories -->
+    <repositories>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <url>https://oss.sonatype.org/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.googlecode.libphonenumber</groupId>
-			<artifactId>libphonenumber</artifactId>
-			<version>8.3.3</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>8.4.0</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-test-framework</artifactId>
-			<version>4.10.4</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-test-framework</artifactId>
+            <version>${lucence.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>1.6.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.carrotsearch.randomizedtesting</groupId>
-			<artifactId>randomizedtesting-runner</artifactId>
-			<version>2.1.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.elasticsearch</groupId>
-			<artifactId>elasticsearch</artifactId>
-			<version>1.6.0</version>
-			<scope>test</scope>
-			<type>test-jar</type>
-		</dependency>
+        <!-- <dependency> -->
+        <!-- <groupId>com.carrotsearch.randomizedtesting</groupId> -->
+        <!-- <artifactId>randomizedtesting-runner</artifactId> -->
+        <!-- <version>2.1.13</version> -->
+        <!-- <scope>test</scope> -->
+        <!-- </dependency> -->
+        <dependency>
+            <groupId>org.elasticsearch.test</groupId>
+            <artifactId>framework</artifactId>
+            <version>${elasticsearch.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
 
-		<!-- Testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-	<developers>
-		<developer>
-			<name>Drew Dahlke</name>
-			<email>justin.dahlke@gmail.com</email>
-			<organization>Interactive Intelligence</organization>
-			<organizationUrl>http://www.inin.com</organizationUrl>
-		</developer>
-		<developer>
-			<name>Michael Mulligan</name>
-			<email>Michael.Mulligan@inin.com</email>
-			<organization>Interactive Intelligence</organization>
-			<organizationUrl>http://www.inin.com</organizationUrl>
-		</developer>
-	</developers>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>4.2.1</version>
+            <scope>test</scope>
+        </dependency>   
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+    <developers>
+        <developer>
+            <name>Drew Dahlke</name>
+            <email>justin.dahlke@gmail.com</email>
+            <organization>Interactive Intelligence</organization>
+            <organizationUrl>http://www.inin.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Michael Mulligan</name>
+            <email>Michael.Mulligan@inin.com</email>
+            <organization>Interactive Intelligence</organization>
+            <organizationUrl>http://www.inin.com</organizationUrl>
+        </developer>
+    </developers>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		<plugins>
-	 		<plugin>
-		      <groupId>org.sonatype.plugins</groupId>
-		      <artifactId>nexus-staging-maven-plugin</artifactId>
-		      <version>1.6.3</version>
-		      <extensions>true</extensions>
-		      <configuration>
-		        <serverId>ossrh</serverId>
-		        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-		        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-		      </configuration>
-		    </plugin>
-		    <plugin>
-		      <groupId>org.apache.maven.plugins</groupId>
-		      <artifactId>maven-javadoc-plugin</artifactId>
-		      <version>2.9.1</version>
-		      <executions>
-		        <execution>
-		          <id>attach-javadocs</id>
-		          <goals>
-		            <goal>jar</goal>
-		          </goals>
-		        </execution>
-		      </executions>
-		    </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.carrotsearch.randomizedtesting</groupId>
-				<artifactId>junit4-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-			 <plugin>
-		      <groupId>org.apache.maven.plugins</groupId>
-		      <artifactId>maven-source-plugin</artifactId>
-		      <version>2.2.1</version>
-		      <executions>
-		        <execution>
-		          <id>attach-sources</id>
-		          <goals>
-		            <goal>jar-no-fork</goal>
-		          </goals>
-		        </execution>
-		      </executions>
-		    </plugin>
-		    <plugin>
-		      <groupId>org.apache.maven.plugins</groupId>
-		      <artifactId>maven-gpg-plugin</artifactId>
-		      <version>1.5</version>
-		       <configuration>
-			      <executable>gpg</executable>
-		       </configuration>
-		      <executions>
-		        <execution>
-		          <id>sign-artifacts</id>
-		          <phase>verify</phase>
-		          <goals>
-		            <goal>sign</goal>
-		          </goals>
-		        </execution>
-		      </executions>
-		    </plugin>		    
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<appendAssemblyId>false</appendAssemblyId>
-					<outputDirectory>${project.build.directory}/releases/</outputDirectory>
-					<descriptors>
-						<descriptor>${basedir}/src/main/assemblies/plugin.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${project.build.sourceVersion}</source>
+                    <target>${project.build.sourceVersion}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.carrotsearch.randomizedtesting</groupId>
+                <artifactId>junit4-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+<!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <executable>gpg</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <outputDirectory>${project.build.directory}/releases/</outputDirectory>
+                    <descriptors>
+                        <descriptor>${basedir}/src/main/assemblies/plugin.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

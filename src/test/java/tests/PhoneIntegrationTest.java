@@ -6,27 +6,34 @@ import static org.hamcrest.CoreMatchers.is;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.admin.cluster.node.info.NodesInfoResponse;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse.AnalyzeToken;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.common.lang3.StringUtils;
-import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.plugins.PluginsService;
-import org.elasticsearch.test.ElasticsearchIntegrationTest;
+import org.elasticsearch.plugins.Plugin;
+import org.elasticsearch.plugins.PluginInfo;
+import org.elasticsearch.plugins.analysis.phone.PhonePlugin;
+import org.elasticsearch.test.ESIntegTestCase;
+import org.elasticsearch.test.ESIntegTestCase.ClusterScope;
+import org.elasticsearch.test.ESIntegTestCase.Scope;
 import org.junit.Before;
 import org.junit.Test;
 
 
-@ElasticsearchIntegrationTest.ClusterScope(scope = ElasticsearchIntegrationTest.Scope.SUITE)
-public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
+@ClusterScope(scope = Scope.SUITE)
+public class PhoneIntegrationTest extends ESIntegTestCase {
 
 	static {
 		ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
@@ -57,16 +64,31 @@ public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
 
 	@Override
 	protected Settings nodeSettings(int nodeOrdinal) {
-		org.elasticsearch.common.settings.ImmutableSettings.Builder builder = ImmutableSettings.builder()
+		return Settings.builder()
 				.put(super.nodeSettings(nodeOrdinal))
-				.put("plugins." + PluginsService.LOAD_PLUGIN_FROM_CLASSPATH, true);
-		return builder.build();
+				.put(IndexMetaData.SETTING_VERSION_CREATED, "2010099") // not sure why this is needed, see org.elasticsearch.Version#V_2_1_0_ID
+				.put(IndexMetaData.SETTING_INDEX_UUID, UUID.randomUUID().toString())
+				.build();
 	}
 
-	@Test
+	@SuppressWarnings("unchecked")
+    @Override
+    protected Collection<Class<? extends Plugin>> nodePlugins() {
+	    return Collections.singleton(PhonePlugin.class);
+    }
+
+    @Test
 	public void testPluginIsLoaded() {
-		NodesInfoResponse infos = client().admin().cluster().prepareNodesInfo().setPlugins(true).execute().actionGet();
-		assertThat(infos.getNodes()[0].getPlugins().getInfos().get(0).getName(), is("phone-plugin"));
+        
+		NodesInfoResponse infos = client().admin().cluster().prepareNodesInfo().setPlugins(true).get();
+		boolean pluginLoaded = false;
+		List<PluginInfo> pluginInfos = infos.getNodes().get(0).getPlugins().getPluginInfos();
+		for (PluginInfo pluginInfo : pluginInfos) {
+		    if (PhonePlugin.NAME.equals(pluginInfo.getName())) {
+		        pluginLoaded = true;
+		    }
+		}
+		assertTrue("Could not find expected plugin: " + PhonePlugin.NAME, pluginLoaded);
 	}
 
 	@Test
@@ -98,11 +120,6 @@ public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
 	public void testTelWithCountryCode2() throws ExecutionException, InterruptedException, IOException {
 		assertIncludes("tel:+12177148350", Arrays.asList("1", "217", "2177", "2177148350","12177148350"));
 	}
-	
-	@Test
-    public void testNewTollFreeNumber() throws ExecutionException, InterruptedException, IOException {
-        assertIncludes("tel:+18337148350", Arrays.asList("1", "833", "8337", "8337148350","18337148350"));
-    }
 
 	@Test
 	public void testMissingCountryCode() throws ExecutionException, InterruptedException, IOException {
