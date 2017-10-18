@@ -3,15 +3,17 @@ package org.elasticsearch.index.analysis;
 import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.miscellaneous.UniqueTokenFilter;
 
-public class PhoneAnalyzer extends Analyzer {
-	
+/**
+ * Analyzer for fields that may contain email addresses or phone numbers.
+ */
+public class PhoneEmailAnalyzer extends Analyzer {
+    
     @Override
-    protected TokenStreamComponents createComponents(String field, Reader reader) {
-        Tokenizer tokenizer = new TermExtractorTokenizer(reader, new PhoneTermExtractor());
+    protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
+        TermExtractorTokenizer tokenizer = new TermExtractorTokenizer(reader, new PhoneTermExtractor(), new EmailTermExtractor());
         return new TokenStreamComponents(tokenizer, new LowerCaseFilter(new UniqueTokenFilter(tokenizer)));
     }
 }

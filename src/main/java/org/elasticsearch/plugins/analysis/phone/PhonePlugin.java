@@ -6,26 +6,28 @@ import org.elasticsearch.plugins.AbstractPlugin;
 import org.elasticsearch.plugins.Plugin;
 
 public class PhonePlugin extends AbstractPlugin implements Plugin {
-
+    
     /* Return a description of this plugin. */
+    @Override
     public String description() {
-        return "Makes a best attempt at tokenizing a phone number or sip address";
+        return "Provides analyzers for phone numbers";
     }
-
-    /* This is the function that will register our analyzer with Elasticsearch. */
+    
     public void onModule(AnalysisModule analysisModule) {
+        analysisModule.addProcessor(new PhoneBinderProcessor());
+        analysisModule.addProcessor(new PhoneEmailBinderProcessor());
         analysisModule.addProcessor(new PhoneBinderProcessor());
     }
     
-    @Override 
+    @Override
     public void processModule(Module module) {
         if (module instanceof AnalysisModule) {
-            AnalysisModule analysisModule = (AnalysisModule) module;
-            analysisModule.addProcessor(new PhoneBinderProcessor());
+            onModule((AnalysisModule) module);
         }
     }
     
-	public String name() {
-		return "phone-plugin";
-	}
+    @Override
+    public String name() {
+        return "phone-plugin";
+    }
 }
