@@ -155,6 +155,21 @@ public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
         assertIncludes("+14177141363", Arrays.asList("14177141363", "417", "4177", "14177"));
     }
     
+    @Test
+    public void testSipWithoutDomainPart() throws ExecutionException, InterruptedException, IOException {
+        assertIncludes("sip:+122882", Arrays.asList("sip:+122882", "122882", "122", "228", "1228", "2288", "12288"));
+    }
+    
+    @Test
+    public void testTelPrefix() throws ExecutionException, InterruptedException, IOException {
+        assertIncludes("tel:+1228", Arrays.asList("tel:+1228", "1228", "122", "228"));
+    }
+    
+    @Test
+    public void testNumberPrefix() throws ExecutionException, InterruptedException, IOException {
+        assertIncludes("+1228", Arrays.asList("+1228", "1228", "122", "228"));
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     // Email addresses (tokenized as email by the phone-email analyzer)
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
