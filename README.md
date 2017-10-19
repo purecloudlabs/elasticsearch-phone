@@ -92,5 +92,6 @@ TOKENS
 user.name@domain.com
 user.name
 user
+name
 domain.com
 domain
