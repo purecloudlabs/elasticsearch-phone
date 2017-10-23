@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 @ElasticsearchIntegrationTest.ClusterScope(scope = ElasticsearchIntegrationTest.Scope.SUITE)
-public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
+public class PhoneTokenizerIntegrationTest extends ElasticsearchIntegrationTest {
     
     static {
         ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
@@ -157,17 +157,17 @@ public class PhoneIntegrationTest extends ElasticsearchIntegrationTest {
     
     @Test
     public void testSipWithoutDomainPart() throws ExecutionException, InterruptedException, IOException {
-        assertIncludes("sip:+122882", Arrays.asList("sip:+122882", "122882", "122", "228", "1228", "2288", "12288"));
+        assertIncludes("sip:+122882", Arrays.asList("122882", "122", "228", "1228", "2288", "12288"));
     }
     
     @Test
     public void testTelPrefix() throws ExecutionException, InterruptedException, IOException {
-        assertIncludes("tel:+1228", Arrays.asList("tel:+1228", "1228", "122", "228"));
+        assertIncludes("tel:+1228", Arrays.asList("1228", "122", "228"));
     }
     
     @Test
     public void testNumberPrefix() throws ExecutionException, InterruptedException, IOException {
-        assertIncludes("+1228", Arrays.asList("+1228", "1228", "122", "228"));
+        assertIncludes("+1228", Arrays.asList("1228", "122", "228"));
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////

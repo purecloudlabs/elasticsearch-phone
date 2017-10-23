@@ -20,6 +20,10 @@ public class EmailTermExtractor implements TermExtractor {
     @Override
     public List<String> extractTerms(String input) {
         List<String> tokens = new ArrayList<String>();
+        if (input.indexOf("tel:") == 0 || input.indexOf("sip:") == 0) {
+            // No tokenization for SIP URIs or other phone numbers
+            return tokens;
+        }
         // Preserve the original input
         tokens.add(input);
         int posAt = input.indexOf('@');
