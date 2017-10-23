@@ -5,14 +5,14 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 
-public class PhoneTokenizerFactory extends AbstractTokenizerFactory {
+public class PhoneSearchTokenizerFactory extends AbstractTokenizerFactory {
 
-    public PhoneTokenizerFactory(IndexSettings indexSettings, Environment environment, String name, Settings settings) {
+    public PhoneSearchTokenizerFactory(IndexSettings indexSettings, Environment environment, String name, Settings settings) {
         super(indexSettings, name, settings);
     }
 
     @Override
     public Tokenizer create() {
-        return new TermExtractorTokenizer(new PhoneTermExtractor());
+        return new TermExtractorTokenizer(new PhoneSearchTermExtractor());
     }
 }
