@@ -14,9 +14,7 @@ public class PhonePlugin extends AbstractPlugin implements Plugin {
     }
     
     public void onModule(AnalysisModule analysisModule) {
-        analysisModule.addProcessor(new PhoneBinderProcessor());
-        analysisModule.addProcessor(new PhoneEmailBinderProcessor());
-        analysisModule.addProcessor(new PhoneBinderProcessor());
+        analysisModule.addProcessor(new CustomAnalysisBinderProcessor());
     }
     
     @Override

@@ -15,11 +15,14 @@ public class PhoneTermExtractor implements TermExtractor {
     @Override
     public List<String> extractTerms(String input) {
         List<String> tokens = new ArrayList<String>();
-        tokens.add(input);
         // Rip off the "tel:" or "sip:" prefix
         if (input.indexOf("tel:") == 0 || input.indexOf("sip:") == 0) {
+            tokens.add(input.substring(0, 4));
             input = input.substring(4);
         }
+        int startIndex = input.startsWith("+") ? 1 : 0;
+        // Add the complete input but skip a leading +
+        tokens.add(input.substring(startIndex));
         // Drop anything after @. Most likely there's nothing of interest
         int posAt = input.indexOf('@');
         if (posAt != -1) {
@@ -28,7 +31,7 @@ public class PhoneTermExtractor implements TermExtractor {
         
         // Add a token for the raw unmanipulated address. Note this could be a username (sip) instead of telephone
         // number so take it as is
-        tokens.add(input);
+        tokens.add(input.substring(startIndex));
         
         // Let google's libphone try to parse it
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
