@@ -15,17 +15,6 @@ import org.elasticsearch.plugins.Plugin;
 
 public class PhonePlugin extends Plugin implements AnalysisPlugin {
     
-    public static final String NAME = "phone-plugin";
-    
-    /* Return a description of this plugin. */
-    public String description() {
-        return "Makes a best attempt at tokenizing a phone number or sip address";
-    }
-    
-    public String name() {
-        return NAME;
-    }
-    
     @Override
     public Map<String, AnalysisProvider<TokenizerFactory>> getTokenizers() {
         Map<String, AnalysisProvider<TokenizerFactory>> tokenizerMap = new HashMap<>();

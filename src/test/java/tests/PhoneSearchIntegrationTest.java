@@ -3,16 +3,14 @@ package tests;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -30,7 +28,7 @@ public class PhoneSearchIntegrationTest extends ESIntegTestCase {
     static {
         ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
     }
-    private List<String> analyzers;
+    private List<String> analyzers = Arrays.asList("phone", "phone-email");
     
     @Before
     @Override
@@ -42,19 +40,11 @@ public class PhoneSearchIntegrationTest extends ESIntegTestCase {
         for (String analyzer : analyzers) {
             mapping.startObject(analyzer).field("type", "string").field("analyzer", analyzer).field("search_analyzer", "phone-search").endObject();
         }
+        mapping.endObject().endObject().endObject();
         
         client().admin().indices().preparePutMapping("test").setType("type").setSource(mapping).get();
         ensureGreen("test");
         Locale.setDefault(new Locale("en_US"));
-    }
-    
-    @Override
-    protected Settings nodeSettings(int nodeOrdinal) {
-        return Settings.builder()
-                .put(super.nodeSettings(nodeOrdinal))
-                .put(IndexMetaData.SETTING_VERSION_CREATED, "2010099")
-                .put(IndexMetaData.SETTING_INDEX_UUID, UUID.randomUUID().toString())
-                .build();
     }
     
     @Override

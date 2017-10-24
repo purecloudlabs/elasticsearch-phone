@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,26 +17,21 @@ import org.elasticsearch.action.admin.cluster.node.info.NodesInfoResponse;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse.AnalyzeToken;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.plugins.Plugin;
 import org.elasticsearch.plugins.PluginInfo;
 import org.elasticsearch.plugins.analysis.phone.PhonePlugin;
 import org.elasticsearch.test.ESIntegTestCase;
-import org.elasticsearch.test.ESIntegTestCase.ClusterScope;
-import org.elasticsearch.test.ESIntegTestCase.Scope;
 import org.junit.Before;
 import org.junit.Test;
 
-@ClusterScope(scope = Scope.SUITE)
 public class PhoneTokenizerIntegrationTest extends ESIntegTestCase {
     
     static {
         ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
     }
-    private List<String> analyzers;
+    private List<String> analyzers = Arrays.asList("phone", "phone-email");
     
     @Before
     @Override
@@ -49,19 +43,11 @@ public class PhoneTokenizerIntegrationTest extends ESIntegTestCase {
         for (String analyzer : analyzers) {
             mapping.startObject(analyzer).field("type", "string").field("analyzer", analyzer).field("search_analyzer", "phone-search").endObject();
         }
+        mapping.endObject().endObject().endObject();
         
         client().admin().indices().preparePutMapping("test").setType("type").setSource(mapping).get();
         ensureGreen("test");
         Locale.setDefault(new Locale("en_US"));
-    }
-    
-    @Override
-    protected Settings nodeSettings(int nodeOrdinal) {
-        return Settings.builder()
-                .put(super.nodeSettings(nodeOrdinal))
-                .put(IndexMetaData.SETTING_VERSION_CREATED, "2010099")
-                .put(IndexMetaData.SETTING_INDEX_UUID, UUID.randomUUID().toString())
-                .build();
     }
     
     @Override
@@ -71,16 +57,15 @@ public class PhoneTokenizerIntegrationTest extends ESIntegTestCase {
     
     @Test
     public void testPluginIsLoaded() {
-        
         NodesInfoResponse infos = client().admin().cluster().prepareNodesInfo().setPlugins(true).get();
         boolean pluginLoaded = false;
         List<PluginInfo> pluginInfos = infos.getNodes().get(0).getPlugins().getPluginInfos();
         for (PluginInfo pluginInfo : pluginInfos) {
-            if (PhonePlugin.NAME.equals(pluginInfo.getName())) {
+            if (PhonePlugin.class.getCanonicalName().equals(pluginInfo.getClassname())) {
                 pluginLoaded = true;
             }
         }
-        assertTrue("Could not find expected plugin: " + PhonePlugin.NAME, pluginLoaded);
+        assertTrue("Could not find expected plugin: phone-plugin", pluginLoaded);
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
