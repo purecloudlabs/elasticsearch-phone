@@ -17,12 +17,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.plugins.Plugin;
 import org.elasticsearch.plugins.analysis.phone.PhonePlugin;
 import org.elasticsearch.test.ESIntegTestCase;
-import org.elasticsearch.test.ESIntegTestCase.ClusterScope;
-import org.elasticsearch.test.ESIntegTestCase.Scope;
 import org.junit.Before;
 import org.junit.Test;
 
-@ClusterScope(scope = Scope.SUITE)
 public class PhoneSearchIntegrationTest extends ESIntegTestCase {
     
     static {
