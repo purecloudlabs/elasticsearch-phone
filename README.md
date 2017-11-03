@@ -18,8 +18,6 @@ This project provides three analyzers that are intended for different contexts.
 * The `phone-email` analyzer extends the `phone` analyzer with additional tokenization for email addresses (e.g. generating tokens for the user part and the domain part of an email address).
 * The `phone-search` analyzer is intended to be used as a `search_analyzer` with one of the other two analyzers used for indexing. It does minimal tokenization: If a term starts with `sip:` or `tel:` it strips this part and generates a token for it. The analyzer also strips a leading `+` from phone numbers.
 
-All three analyzers remove non-unique tokens and transform terms to lowercase.
-
 
 ## Example inputs
 
@@ -48,6 +46,7 @@ Input (with country code): `sip:+13169410766;ext=2233@172.17.10.117:8060`
 Tokens:
 
 ```
+sip:+13169410766;ext=2233@172.17.10.117:8060
 sip:
 13169410766;ext=2233@172.17.10.117:8060
 13169410766;ext=2233
@@ -81,6 +80,7 @@ Input (without a country code): `tel:8177148350`
 Tokens:
 
 ```
+tel:8177148350
 tel:
 8177148350
 8

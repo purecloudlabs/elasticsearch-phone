@@ -147,7 +147,7 @@ public class PhoneTokenizerIntegrationTest extends ElasticsearchIntegrationTest 
     
     @Test
     public void testSipWithUsername() throws ExecutionException, InterruptedException, IOException {
-        assertIncludes("sip:JeffSIP@178.12.220.18", Arrays.asList("jeffsip"));
+        assertIncludes("sip:JeffSIP@178.12.220.18", Arrays.asList("JeffSIP"));
     }
     
     @Test
