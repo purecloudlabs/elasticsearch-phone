@@ -6,7 +6,7 @@
     <groupId>com.inin.analytics</groupId>
     <artifactId>elasticsearch-phone</artifactId>
     <packaging>jar</packaging>
-    <version>5.1.1</version>
+    <version>5.1.1-SNAPSHOT</version>
     <name>elasticsearch-phone</name>
     <description>Elasticsearch Plugin for Phone and SIP Analysis</description>
     <url>https://github.com/MyPureCloud/elasticsearch-phone</url>
@@ -49,6 +49,28 @@
             <url>http://repo1.maven.org/maven2</url>
             <snapshots>
                 <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>inin-release</id>
+            <name>ININ Release Repository</name>
+            <url>https://purecloud.artifactoryonline.com/purecloud/inin-release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>inin-snapshot</id>
+            <name>ININ Snapshot Repository</name>
+            <url>https://purecloud.artifactoryonline.com/purecloud/inin-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
