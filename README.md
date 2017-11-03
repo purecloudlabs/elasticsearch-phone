@@ -18,8 +18,6 @@ This project provides three analyzers that are intended for different contexts.
 * The `phone-email` analyzer extends the `phone` analyzer with additional tokenization for email addresses (e.g. generating tokens for the user part and the domain part of an email address).
 * The `phone-search` analyzer is intended to be used as a `search_analyzer` with one of the other two analyzers used for indexing. It does minimal tokenization: If a term starts with `sip:` or `tel:` it strips this part and generates a token for it. The analyzer also strips a leading `+` from phone numbers.
 
-All three analyzers remove non-unique tokens and transform terms to lowercase.
-
 
 ## Example inputs
 
