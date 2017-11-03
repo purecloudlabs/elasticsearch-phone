@@ -144,7 +144,7 @@ public class PhoneTokenizerIntegrationTest extends ESIntegTestCase {
     
     @Test
     public void testSipWithUsername() throws ExecutionException, InterruptedException, IOException {
-        assertIncludes("sip:JeffSIP@178.12.220.18", Arrays.asList("jeffsip"));
+        assertIncludes("sip:JeffSIP@178.12.220.18", Arrays.asList("JeffSIP"));
     }
     
     @Test

@@ -15,6 +15,7 @@ public class PhoneTermExtractor implements TermExtractor {
     @Override
     public List<String> extractTerms(String input) {
         List<String> tokens = new ArrayList<String>();
+        tokens.add(input);
         // Rip off the "tel:" or "sip:" prefix
         if (input.indexOf("tel:") == 0 || input.indexOf("sip:") == 0) {
             tokens.add(input.substring(0, 4));
