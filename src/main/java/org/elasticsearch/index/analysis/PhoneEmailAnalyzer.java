@@ -9,7 +9,7 @@ import org.apache.lucene.analysis.miscellaneous.UniqueTokenFilter;
 public class PhoneEmailAnalyzer extends Analyzer {
     
     @Override
-    protected TokenStreamComponents createComponents(String field) {
+    protected TokenStreamComponents createComponents(String fieldName) {
         TermExtractorTokenizer tokenizer = new TermExtractorTokenizer(new PhoneTermExtractor(), new EmailTermExtractor());
         return new TokenStreamComponents(tokenizer, new UniqueTokenFilter(tokenizer));
     }
