@@ -3,18 +3,15 @@ package org.elasticsearch.index.analysis;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.math.NumberUtils;
-import org.elasticsearch.common.lang3.StringUtils;
-
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 public class PhoneTermExtractor implements TermExtractor {
-    
+
     @Override
     public List<String> extractTerms(String input) {
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         tokens.add(input);
         // Rip off the "tel:" or "sip:" prefix
         if (input.indexOf("tel:") == 0 || input.indexOf("sip:") == 0) {
@@ -29,11 +26,11 @@ public class PhoneTermExtractor implements TermExtractor {
         if (posAt != -1) {
             input = input.substring(0, posAt);
         }
-        
+
         // Add a token for the raw unmanipulated address. Note this could be a username (sip) instead of telephone
         // number so take it as is
         tokens.add(input.substring(startIndex));
-        
+
         // Let google's libphone try to parse it
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         PhoneNumber numberProto = null;
@@ -45,13 +42,14 @@ public class PhoneTermExtractor implements TermExtractor {
                 // Libphone likes it!
                 countryCode = String.valueOf(numberProto.getCountryCode());
                 input = String.valueOf(numberProto.getNationalNumber());
-                
+
                 // Add Country code, extension, and the number as tokens
                 tokens.add(countryCode);
-                if (!StringUtils.isEmpty(numberProto.getExtension())) {
-                    tokens.add(numberProto.getExtension());
+                String extension = numberProto.getExtension();
+                if (extension != null && !extension.isEmpty()) {
+                    tokens.add(extension);
                 }
-                
+
                 tokens.add(input);
             }
         } catch (NumberParseException e) {
@@ -59,9 +57,9 @@ public class PhoneTermExtractor implements TermExtractor {
         } catch (StringIndexOutOfBoundsException e) {
             // Libphone didn't like it, no biggie. We'll just ngram the number as it is.
         }
-        
+
         // ngram the phone number EG 19198243333 produces 9, 91, 919, etc
-        if (NumberUtils.isNumber(input)) {
+        if (isAsciiDigits(input)) {
             for (int count = 1; count <= input.length(); count++) {
                 String token = input.substring(0, count);
                 tokens.add(token);
@@ -72,5 +70,19 @@ public class PhoneTermExtractor implements TermExtractor {
             }
         }
         return tokens;
+    }
+
+    /** True when the string is non-empty and composed solely of ASCII digits (0-9). */
+    private static boolean isAsciiDigits(String s) {
+        if (s.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 }

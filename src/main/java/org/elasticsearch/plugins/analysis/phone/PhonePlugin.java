@@ -1,31 +1,35 @@
 package org.elasticsearch.plugins.analysis.phone;
 
-import org.elasticsearch.common.inject.Module;
-import org.elasticsearch.index.analysis.AnalysisModule;
-import org.elasticsearch.plugins.AbstractPlugin;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.elasticsearch.index.analysis.AnalyzerProvider;
+import org.elasticsearch.index.analysis.PhoneEmailTokenizerFactory;
+import org.elasticsearch.index.analysis.PhoneSearchTokenizerFactory;
+import org.elasticsearch.index.analysis.PhoneTokenizerFactory;
+import org.elasticsearch.index.analysis.TokenizerFactory;
+import org.elasticsearch.indices.analysis.AnalysisModule.AnalysisProvider;
+import org.elasticsearch.plugins.AnalysisPlugin;
 import org.elasticsearch.plugins.Plugin;
 
-public class PhonePlugin extends AbstractPlugin implements Plugin {
-    
-    /* Return a description of this plugin. */
-    @Override
-    public String description() {
-        return "Provides analyzers for phone numbers";
-    }
-    
-    public void onModule(AnalysisModule analysisModule) {
-        analysisModule.addProcessor(new CustomAnalysisBinderProcessor());
-    }
+public class PhonePlugin extends Plugin implements AnalysisPlugin {
     
     @Override
-    public void processModule(Module module) {
-        if (module instanceof AnalysisModule) {
-            onModule((AnalysisModule) module);
-        }
+    public Map<String, AnalysisProvider<TokenizerFactory>> getTokenizers() {
+        Map<String, AnalysisProvider<TokenizerFactory>> tokenizerMap = new HashMap<>();
+        tokenizerMap.put("phone_tokenizer", PhoneTokenizerFactory::new);
+        tokenizerMap.put("phone_email_tokenizer", PhoneEmailTokenizerFactory::new);
+        tokenizerMap.put("phone_search_tokenizer", PhoneSearchTokenizerFactory::new);
+        return tokenizerMap;
     }
     
     @Override
-    public String name() {
-        return "phone-plugin";
+    public Map<String, AnalysisProvider<AnalyzerProvider<? extends Analyzer>>> getAnalyzers() {
+        Map<String, AnalysisProvider<AnalyzerProvider<? extends Analyzer>>> analyzerMap = new HashMap<>();
+        analyzerMap.put("phone", PhoneAnalyzerProvider::new);
+        analyzerMap.put("phone_search", PhoneSearchAnalyzerProvider::new);
+        analyzerMap.put("phone_email", PhoneEmailAnalyzerProvider::new);
+        return analyzerMap;
     }
 }

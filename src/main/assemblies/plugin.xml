@@ -1,27 +1,28 @@
 <?xml version="1.0"?>
-<assembly>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
     <id>plugin</id>
     <formats>
         <format>zip</format>
     </formats>
+    <!-- Modern Elasticsearch plugin zips have the descriptor and jars at the root. -->
     <includeBaseDirectory>false</includeBaseDirectory>
+    <files>
+        <file>
+            <!-- Use the already-filtered copy produced by the resources plugin. -->
+            <source>${project.build.outputDirectory}/plugin-descriptor.properties</source>
+            <outputDirectory></outputDirectory>
+            <filtered>false</filtered>
+        </file>
+    </files>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory></outputDirectory>
             <useProjectArtifact>true</useProjectArtifact>
-            <useTransitiveFiltering>true</useTransitiveFiltering>
-            <excludes>
-                <exclude>org.elasticsearch:elasticsearch</exclude>
-            </excludes>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/</outputDirectory>
-            <useProjectArtifact>true</useProjectArtifact>
-            <useTransitiveFiltering>true</useTransitiveFiltering>
-            <includes>
-                <include>com.googlecode.libphonenumber:libphonenumber</include>
-		<include>org.apache.commons:commons-lang3</include>
-            </includes>
+            <!-- runtime scope bundles the plugin jar + libphonenumber, but excludes the
+                 provided Elasticsearch/Lucene jars and all test-scoped dependencies. -->
+            <scope>runtime</scope>
         </dependencySet>
     </dependencySets>
 </assembly>
